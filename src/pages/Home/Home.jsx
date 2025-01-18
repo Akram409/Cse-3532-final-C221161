@@ -45,12 +45,12 @@ const Home = () => {
   return (
     <div className="">
       <div className="container mx-auto px-16 mt-16">
-        <div role="tablist" className="tabs tabs-boxed">
+        <div role="tablist" className="tabs tabs-boxed gap-4 mx-52">
           {tabNames.map((tabName, index) => (
             <a
               key={index}
               role="tab"
-              className={`tab ${activeTab === tabName ? 'bg-red-600 text-white' : ''}`}
+              className={`tab ${activeTab === tabName ? 'bg-red-600 text-white' : 'bg-gray-300 text-black'}`}
               onClick={() => setActiveTab(tabName)}
             >
               {tabName}
@@ -60,43 +60,50 @@ const Home = () => {
 
         <div className="mt-8">
           <div className="grid grid-cols-4 gap-5">
-            {filteredVideos.map((video, index) => (
-              <div key={index} className="card card-compact bg-base-100 w-auto shadow-xl">
-                <figure>
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className='object-cover h-36'
-                  />
-                </figure>
-                <div className="card-body">
-                  {/* Avatar and Title */}
-                  <div className="flex items-center space-x-4">
+            {filteredVideos.length > 0 ? (
+              filteredVideos.map((video, index) => (
+                <div key={index} className="card card-compact bg-base-100 w-auto shadow-xl">
+                  <figure>
                     <img
-                      className="w-12 h-12 rounded-full"
-                      src={video.authors[0]?.profile_picture || "https://i.pravatar.cc/150?img=3"}
-                      alt="Avatar"
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className='object-cover h-36'
                     />
-                    <div>
-                      <h3 className="font-semibold">{video.title || 'Unknown Author'}</h3>
-                      {/* Verified Icon */}
+                  </figure>
+                  <div className="card-body">
+                    {/* Avatar and Title */}
+                    <div className="flex items-center space-x-4">
+                      <img
+                        className="w-12 h-12 rounded-full"
+                        src={video.authors[0]?.profile_picture || "https://i.pravatar.cc/150?img=3"}
+                        alt="Avatar"
+                      />
+                      <div>
+                        <h3 className="font-semibold">{video.title || 'Unknown Author'}</h3>
+                      </div>
+                    </div>
 
+                    <div className="mt-2 text-sm text-gray-500 flex items-center gap-3">
+                      <span>{video.authors[0]?.profile_name}</span>
+
+                      {video.authors[0]?.verified && (
+                        <img src='/correct.png' className='h-[15px]' />
+                      )}
+                    </div>
+                    <div className="mt-1 text-xs text-gray-400 ">
+                      <span>{video.others.views}</span>
                     </div>
                   </div>
-
-                  <div className="mt-2 text-sm text-gray-500 ">
-                    <span>{video.authors[0]?.profile_name}</span>
-
-                    {video.authors[0]?.verified && (
-                      <span className="text-blue-600 text-xl">&#x2714;</span>
-                    )}
-                  </div>
-                  <div className="mt-1 text-xs text-gray-400">
-                    <span>{video.others.views}</span>
-                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="flex justify-center items-center col-span-4">
+                <div className="flex flex-col items-center gap-4">
+                  <img src='/Icon.png' className='w-1/2' alt="No content" />
+                  <h1 className='text-2xl font-bold'>Oops!! Sorry, There is no content here</h1>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
